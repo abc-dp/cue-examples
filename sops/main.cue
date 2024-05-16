@@ -1,3 +1,3 @@
 package sops
 
-key_in_sops: _
+sops: secretKey: _
