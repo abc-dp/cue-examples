@@ -10,12 +10,16 @@ import (
 command: sops: {
 	#vars: {
 		enc: filename: *"sops.enc.yaml" | _
-		package:    *"sops" | _
-		expression: *"sops" | _
+		package: *"sops" | _
+		path: ["sops", "dec"]
+		expression: *strings.Join(path, ".") | _
 	}
-	#locals: dec: {
-		filename: strings.Replace(#vars.enc.filename, ".enc.", ".dec.", 1)
-		imported: strings.Join([filename, "cue"], ".")
+	#locals: {
+		dec: {
+			filename: strings.Replace(#vars.enc.filename, ".enc.", ".dec.", 1)
+			imported: strings.Join([filename, "cue"], ".")
+		}
+		path: strings.Join([for p in #vars.path {#"--path "\#(p)""#}], " ")
 	}
 	decrypt: exec.Run & {
 		cmd:    "sops --decrypt \(#vars.enc.filename)"
@@ -27,7 +31,7 @@ command: sops: {
 	}
 	import: exec.Run & {
 		$after: decrypt
-		cmd:    "cue import \(#locals.dec.filename) --path \"\(#vars.expression)\" --package \(#vars.package) --force --outfile \(#locals.dec.imported)"
+		cmd:    "cue import \(#locals.dec.filename) \(#locals.path) --package \(#vars.package) --force --outfile \(#locals.dec.imported)"
 	}
 	export: exec.Run & {
 		$after: import
