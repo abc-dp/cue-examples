@@ -1,0 +1,6 @@
+---
+creation_rules:
+- shamir_threshold: 1
+  key_groups:
+  - age:
+    - age1uv7yh36p2gccqyepkdzxphw8rtpe6kyntusfuwhj3v6q557w0eussxchpc # YZ-N
