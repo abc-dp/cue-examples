@@ -1,0 +1,12 @@
+load(
+    "@rules_cue//cue:cue.bzl",
+    "cue_instance",
+)
+
+cue_instance(
+    name = "kubernetes",
+    srcs = ["kubernetes.cue"],
+    ancestor = "//kubernetes/cue.mod",
+    visibility = ["//kubernetes:__subpackages__"],
+    deps = ["//kubernetes/kue"],
+)

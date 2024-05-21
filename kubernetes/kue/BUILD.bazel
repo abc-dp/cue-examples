@@ -11,5 +11,5 @@ cue_instance(
         "kue_tool.cue",
     ],
     ancestor = "//kubernetes/cue.mod",
-    visibility = [":__subpackages__"],
+    visibility = ["//visibility:public"],
 )
