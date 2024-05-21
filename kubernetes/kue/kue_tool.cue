@@ -40,6 +40,11 @@ command: "kue-api-resources": {
 					if r.SHORTNAMES != _|_ {
 						shortnames: strings.Split(r.SHORTNAMES, ",")
 					}
+					let P = strings.Replace(r.APIVERSION, ".k8s.io", "", -1)
+					import: *"k8s.io/api/\(P)" | _
+					if r.APIVERSION == "v1" {
+						import: "k8s.io/api/core/v1"
+					}
 				}
 			}}
 		}
