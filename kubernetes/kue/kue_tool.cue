@@ -25,7 +25,6 @@ command: "kue-api-resources": {
 			headers: strings.Fields(lines[0])
 			records: [for ln in lines[1:] if ln != "" {
 				let FLDS = strings.Fields(ln)
-
 				if len(FLDS) < len(headers) {
 					let HDRS = [for h in headers if h != "SHORTNAMES" {h}]
 					for i, _ in FLDS {(HDRS[i]): FLDS[i]}
@@ -38,6 +37,9 @@ command: "kue-api-resources": {
 				(r.APIVERSION): (r.KIND): {
 					name:       r.NAME
 					namespaced: r.NAMESPACED
+					if r.SHORTNAMES != _|_ {
+						shortnames: strings.Split(r.SHORTNAMES, ",")
+					}
 				}
 			}}
 		}

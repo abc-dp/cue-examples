@@ -7,43 +7,73 @@ cluster: gvk: {
 			namespaced: "true"
 		}
 		ComponentStatus: {
-			name:       "componentstatuses"
+			name: "componentstatuses"
+			shortnames: [
+				"cs",
+			]
 			namespaced: "false"
 		}
 		ConfigMap: {
-			name:       "configmaps"
+			name: "configmaps"
+			shortnames: [
+				"cm",
+			]
 			namespaced: "true"
 		}
 		Endpoints: {
-			name:       "endpoints"
+			name: "endpoints"
+			shortnames: [
+				"ep",
+			]
 			namespaced: "true"
 		}
 		Event: {
-			name:       "events"
+			name: "events"
+			shortnames: [
+				"ev",
+			]
 			namespaced: "true"
 		}
 		LimitRange: {
-			name:       "limitranges"
+			name: "limitranges"
+			shortnames: [
+				"limits",
+			]
 			namespaced: "true"
 		}
 		Namespace: {
-			name:       "namespaces"
+			name: "namespaces"
+			shortnames: [
+				"ns",
+			]
 			namespaced: "false"
 		}
 		Node: {
-			name:       "nodes"
+			name: "nodes"
+			shortnames: [
+				"no",
+			]
 			namespaced: "false"
 		}
 		PersistentVolumeClaim: {
-			name:       "persistentvolumeclaims"
+			name: "persistentvolumeclaims"
+			shortnames: [
+				"pvc",
+			]
 			namespaced: "true"
 		}
 		PersistentVolume: {
-			name:       "persistentvolumes"
+			name: "persistentvolumes"
+			shortnames: [
+				"pv",
+			]
 			namespaced: "false"
 		}
 		Pod: {
-			name:       "pods"
+			name: "pods"
+			shortnames: [
+				"po",
+			]
 			namespaced: "true"
 		}
 		PodTemplate: {
@@ -51,11 +81,17 @@ cluster: gvk: {
 			namespaced: "true"
 		}
 		ReplicationController: {
-			name:       "replicationcontrollers"
+			name: "replicationcontrollers"
+			shortnames: [
+				"rc",
+			]
 			namespaced: "true"
 		}
 		ResourceQuota: {
-			name:       "resourcequotas"
+			name: "resourcequotas"
+			shortnames: [
+				"quota",
+			]
 			namespaced: "true"
 		}
 		Secret: {
@@ -63,11 +99,17 @@ cluster: gvk: {
 			namespaced: "true"
 		}
 		ServiceAccount: {
-			name:       "serviceaccounts"
+			name: "serviceaccounts"
+			shortnames: [
+				"sa",
+			]
 			namespaced: "true"
 		}
 		Service: {
-			name:       "services"
+			name: "services"
+			shortnames: [
+				"svc",
+			]
 			namespaced: "true"
 		}
 	}
@@ -82,7 +124,11 @@ cluster: gvk: {
 		}
 	}
 	"apiextensions.k8s.io/v1": CustomResourceDefinition: {
-		name:       "customresourcedefinitions"
+		name: "customresourcedefinitions"
+		shortnames: [
+			"crd",
+			"crds",
+		]
 		namespaced: "false"
 	}
 	"apiregistration.k8s.io/v1": APIService: {
@@ -95,19 +141,31 @@ cluster: gvk: {
 			namespaced: "true"
 		}
 		DaemonSet: {
-			name:       "daemonsets"
+			name: "daemonsets"
+			shortnames: [
+				"ds",
+			]
 			namespaced: "true"
 		}
 		Deployment: {
-			name:       "deployments"
+			name: "deployments"
+			shortnames: [
+				"deploy",
+			]
 			namespaced: "true"
 		}
 		ReplicaSet: {
-			name:       "replicasets"
+			name: "replicasets"
+			shortnames: [
+				"rs",
+			]
 			namespaced: "true"
 		}
 		StatefulSet: {
-			name:       "statefulsets"
+			name: "statefulsets"
+			shortnames: [
+				"sts",
+			]
 			namespaced: "true"
 		}
 	}
@@ -140,12 +198,18 @@ cluster: gvk: {
 		}
 	}
 	"autoscaling/v2": HorizontalPodAutoscaler: {
-		name:       "horizontalpodautoscalers"
+		name: "horizontalpodautoscalers"
+		shortnames: [
+			"hpa",
+		]
 		namespaced: "true"
 	}
 	"batch/v1": {
 		CronJob: {
-			name:       "cronjobs"
+			name: "cronjobs"
+			shortnames: [
+				"cj",
+			]
 			namespaced: "true"
 		}
 		Job: {
@@ -154,7 +218,10 @@ cluster: gvk: {
 		}
 	}
 	"certificates.k8s.io/v1": CertificateSigningRequest: {
-		name:       "certificatesigningrequests"
+		name: "certificatesigningrequests"
+		shortnames: [
+			"csr",
+		]
 		namespaced: "false"
 	}
 	"coordination.k8s.io/v1": Lease: {
@@ -166,7 +233,10 @@ cluster: gvk: {
 		namespaced: "true"
 	}
 	"events.k8s.io/v1": Event: {
-		name:       "events"
+		name: "events"
+		shortnames: [
+			"ev",
+		]
 		namespaced: "true"
 	}
 	"flowcontrol.apiserver.k8s.io/v1": {
@@ -185,11 +255,17 @@ cluster: gvk: {
 			namespaced: "false"
 		}
 		Ingress: {
-			name:       "ingresses"
+			name: "ingresses"
+			shortnames: [
+				"ing",
+			]
 			namespaced: "true"
 		}
 		NetworkPolicy: {
-			name:       "networkpolicies"
+			name: "networkpolicies"
+			shortnames: [
+				"netpol",
+			]
 			namespaced: "true"
 		}
 	}
@@ -198,7 +274,10 @@ cluster: gvk: {
 		namespaced: "false"
 	}
 	"policy/v1": PodDisruptionBudget: {
-		name:       "poddisruptionbudgets"
+		name: "poddisruptionbudgets"
+		shortnames: [
+			"pdb",
+		]
 		namespaced: "true"
 	}
 	"rbac.authorization.k8s.io/v1": {
@@ -220,7 +299,10 @@ cluster: gvk: {
 		}
 	}
 	"scheduling.k8s.io/v1": PriorityClass: {
-		name:       "priorityclasses"
+		name: "priorityclasses"
+		shortnames: [
+			"pc",
+		]
 		namespaced: "false"
 	}
 	"storage.k8s.io/v1": {
@@ -237,7 +319,10 @@ cluster: gvk: {
 			namespaced: "true"
 		}
 		StorageClass: {
-			name:       "storageclasses"
+			name: "storageclasses"
+			shortnames: [
+				"sc",
+			]
 			namespaced: "false"
 		}
 		VolumeAttachment: {

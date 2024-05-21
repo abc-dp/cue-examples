@@ -6,42 +6,72 @@
     },
     "ComponentStatus": {
       "name": "componentstatuses",
+      "shortnames": [
+        "cs"
+      ],
       "namespaced": "false"
     },
     "ConfigMap": {
       "name": "configmaps",
+      "shortnames": [
+        "cm"
+      ],
       "namespaced": "true"
     },
     "Endpoints": {
       "name": "endpoints",
+      "shortnames": [
+        "ep"
+      ],
       "namespaced": "true"
     },
     "Event": {
       "name": "events",
+      "shortnames": [
+        "ev"
+      ],
       "namespaced": "true"
     },
     "LimitRange": {
       "name": "limitranges",
+      "shortnames": [
+        "limits"
+      ],
       "namespaced": "true"
     },
     "Namespace": {
       "name": "namespaces",
+      "shortnames": [
+        "ns"
+      ],
       "namespaced": "false"
     },
     "Node": {
       "name": "nodes",
+      "shortnames": [
+        "no"
+      ],
       "namespaced": "false"
     },
     "PersistentVolumeClaim": {
       "name": "persistentvolumeclaims",
+      "shortnames": [
+        "pvc"
+      ],
       "namespaced": "true"
     },
     "PersistentVolume": {
       "name": "persistentvolumes",
+      "shortnames": [
+        "pv"
+      ],
       "namespaced": "false"
     },
     "Pod": {
       "name": "pods",
+      "shortnames": [
+        "po"
+      ],
       "namespaced": "true"
     },
     "PodTemplate": {
@@ -50,10 +80,16 @@
     },
     "ReplicationController": {
       "name": "replicationcontrollers",
+      "shortnames": [
+        "rc"
+      ],
       "namespaced": "true"
     },
     "ResourceQuota": {
       "name": "resourcequotas",
+      "shortnames": [
+        "quota"
+      ],
       "namespaced": "true"
     },
     "Secret": {
@@ -62,10 +98,16 @@
     },
     "ServiceAccount": {
       "name": "serviceaccounts",
+      "shortnames": [
+        "sa"
+      ],
       "namespaced": "true"
     },
     "Service": {
       "name": "services",
+      "shortnames": [
+        "svc"
+      ],
       "namespaced": "true"
     }
   },
@@ -82,6 +124,10 @@
   "apiextensions.k8s.io/v1": {
     "CustomResourceDefinition": {
       "name": "customresourcedefinitions",
+      "shortnames": [
+        "crd",
+        "crds"
+      ],
       "namespaced": "false"
     }
   },
@@ -98,18 +144,30 @@
     },
     "DaemonSet": {
       "name": "daemonsets",
+      "shortnames": [
+        "ds"
+      ],
       "namespaced": "true"
     },
     "Deployment": {
       "name": "deployments",
+      "shortnames": [
+        "deploy"
+      ],
       "namespaced": "true"
     },
     "ReplicaSet": {
       "name": "replicasets",
+      "shortnames": [
+        "rs"
+      ],
       "namespaced": "true"
     },
     "StatefulSet": {
       "name": "statefulsets",
+      "shortnames": [
+        "sts"
+      ],
       "namespaced": "true"
     }
   },
@@ -144,12 +202,18 @@
   "autoscaling/v2": {
     "HorizontalPodAutoscaler": {
       "name": "horizontalpodautoscalers",
+      "shortnames": [
+        "hpa"
+      ],
       "namespaced": "true"
     }
   },
   "batch/v1": {
     "CronJob": {
       "name": "cronjobs",
+      "shortnames": [
+        "cj"
+      ],
       "namespaced": "true"
     },
     "Job": {
@@ -160,6 +224,9 @@
   "certificates.k8s.io/v1": {
     "CertificateSigningRequest": {
       "name": "certificatesigningrequests",
+      "shortnames": [
+        "csr"
+      ],
       "namespaced": "false"
     }
   },
@@ -178,6 +245,9 @@
   "events.k8s.io/v1": {
     "Event": {
       "name": "events",
+      "shortnames": [
+        "ev"
+      ],
       "namespaced": "true"
     }
   },
@@ -198,10 +268,16 @@
     },
     "Ingress": {
       "name": "ingresses",
+      "shortnames": [
+        "ing"
+      ],
       "namespaced": "true"
     },
     "NetworkPolicy": {
       "name": "networkpolicies",
+      "shortnames": [
+        "netpol"
+      ],
       "namespaced": "true"
     }
   },
@@ -214,6 +290,9 @@
   "policy/v1": {
     "PodDisruptionBudget": {
       "name": "poddisruptionbudgets",
+      "shortnames": [
+        "pdb"
+      ],
       "namespaced": "true"
     }
   },
@@ -238,6 +317,9 @@
   "scheduling.k8s.io/v1": {
     "PriorityClass": {
       "name": "priorityclasses",
+      "shortnames": [
+        "pc"
+      ],
       "namespaced": "false"
     }
   },
@@ -256,6 +338,9 @@
     },
     "StorageClass": {
       "name": "storageclasses",
+      "shortnames": [
+        "sc"
+      ],
       "namespaced": "false"
     },
     "VolumeAttachment": {
