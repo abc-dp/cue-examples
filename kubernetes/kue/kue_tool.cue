@@ -2,6 +2,7 @@ package kue
 
 import (
 	"encoding/json"
+	"regexp"
 	"strings"
 	"tool/cli"
 	"tool/exec"
@@ -9,20 +10,18 @@ import (
 )
 
 command: {
+	_pkgId: {for p in [for v, vv in cluster.apiResources {for k, kv in vv {kv.package}}] {
+		(p): regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), "")
+	}}
 	"kue-imports": cli.Print & {
-		_pkg: [for v, vv in cluster.apiResources {for k, kv in vv {
-			kv.import
-		}}]
-		text: strings.Join([for p in _pkg {#""\#(p)""#}], "\n")
+		text: strings.Join([for p, i in _pkgId {#"\#(i) "\#(p)""#}], "\n")
 	}
-	"kue-resources": cli.Print & {
-		_ar: {
-			for v, vv in cluster.apiResources {for k, kv in vv {
-			}}
-		}
-		text: "bindings: [_]: corev1.#Binding"
-	}
-
+	// "kue-defs": cli.Print & {
+	// 	text: strings.Join([for v, vv in cluster.apiResources {for k, kv in vv {"foo"
+	// 		// let I = _pkgId[kv.import]
+	// 		// "\(kv.name): [_]: \(I).#\(k)"
+	// 	}}], "\n")
+	// }
 	"kue-api-resources": {
 		run: exec.Run & {
 			cmd:    "kubectl api-resources"
@@ -57,9 +56,9 @@ command: {
 							shortnames: strings.Split(r.SHORTNAMES, ",")
 						}
 						let P = strings.Replace(r.APIVERSION, ".k8s.io", "", -1)
-						import: *"k8s.io/api/\(P)" | _
+						package: *"k8s.io/api/\(P)" | _
 						if r.APIVERSION == "v1" {
-							import: "k8s.io/api/core/v1"
+							package: "k8s.io/api/core/v1"
 						}
 					}
 				}}

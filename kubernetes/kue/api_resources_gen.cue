@@ -5,7 +5,7 @@ cluster: apiResources: {
 		Binding: {
 			name:       "bindings"
 			namespaced: "true"
-			import:     "k8s.io/api/core/v1"
+			package:    "k8s.io/api/core/v1"
 		}
 		ComponentStatus: {
 			name:       "componentstatuses"
@@ -13,7 +13,7 @@ cluster: apiResources: {
 			shortnames: [
 				"cs",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		ConfigMap: {
 			name:       "configmaps"
@@ -21,7 +21,7 @@ cluster: apiResources: {
 			shortnames: [
 				"cm",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		Endpoints: {
 			name:       "endpoints"
@@ -29,7 +29,7 @@ cluster: apiResources: {
 			shortnames: [
 				"ep",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		Event: {
 			name:       "events"
@@ -37,7 +37,7 @@ cluster: apiResources: {
 			shortnames: [
 				"ev",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		LimitRange: {
 			name:       "limitranges"
@@ -45,7 +45,7 @@ cluster: apiResources: {
 			shortnames: [
 				"limits",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		Namespace: {
 			name:       "namespaces"
@@ -53,7 +53,7 @@ cluster: apiResources: {
 			shortnames: [
 				"ns",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		Node: {
 			name:       "nodes"
@@ -61,7 +61,7 @@ cluster: apiResources: {
 			shortnames: [
 				"no",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		PersistentVolumeClaim: {
 			name:       "persistentvolumeclaims"
@@ -69,7 +69,7 @@ cluster: apiResources: {
 			shortnames: [
 				"pvc",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		PersistentVolume: {
 			name:       "persistentvolumes"
@@ -77,7 +77,7 @@ cluster: apiResources: {
 			shortnames: [
 				"pv",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		Pod: {
 			name:       "pods"
@@ -85,12 +85,12 @@ cluster: apiResources: {
 			shortnames: [
 				"po",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		PodTemplate: {
 			name:       "podtemplates"
 			namespaced: "true"
-			import:     "k8s.io/api/core/v1"
+			package:    "k8s.io/api/core/v1"
 		}
 		ReplicationController: {
 			name:       "replicationcontrollers"
@@ -98,7 +98,7 @@ cluster: apiResources: {
 			shortnames: [
 				"rc",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		ResourceQuota: {
 			name:       "resourcequotas"
@@ -106,12 +106,12 @@ cluster: apiResources: {
 			shortnames: [
 				"quota",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		Secret: {
 			name:       "secrets"
 			namespaced: "true"
-			import:     "k8s.io/api/core/v1"
+			package:    "k8s.io/api/core/v1"
 		}
 		ServiceAccount: {
 			name:       "serviceaccounts"
@@ -119,7 +119,7 @@ cluster: apiResources: {
 			shortnames: [
 				"sa",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 		Service: {
 			name:       "services"
@@ -127,19 +127,29 @@ cluster: apiResources: {
 			shortnames: [
 				"svc",
 			]
-			import: "k8s.io/api/core/v1"
+			package: "k8s.io/api/core/v1"
 		}
 	}
 	"admissionregistration.k8s.io/v1": {
 		MutatingWebhookConfiguration: {
 			name:       "mutatingwebhookconfigurations"
 			namespaced: "false"
-			import:     "k8s.io/api/admissionregistration/v1"
+			package:    "k8s.io/api/admissionregistration/v1"
+		}
+		ValidatingAdmissionPolicy: {
+			name:       "validatingadmissionpolicies"
+			namespaced: "false"
+			package:    "k8s.io/api/admissionregistration/v1"
+		}
+		ValidatingAdmissionPolicyBinding: {
+			name:       "validatingadmissionpolicybindings"
+			namespaced: "false"
+			package:    "k8s.io/api/admissionregistration/v1"
 		}
 		ValidatingWebhookConfiguration: {
 			name:       "validatingwebhookconfigurations"
 			namespaced: "false"
-			import:     "k8s.io/api/admissionregistration/v1"
+			package:    "k8s.io/api/admissionregistration/v1"
 		}
 	}
 	"apiextensions.k8s.io/v1": CustomResourceDefinition: {
@@ -149,18 +159,18 @@ cluster: apiResources: {
 			"crd",
 			"crds",
 		]
-		import: "k8s.io/api/apiextensions/v1"
+		package: "k8s.io/api/apiextensions/v1"
 	}
 	"apiregistration.k8s.io/v1": APIService: {
 		name:       "apiservices"
 		namespaced: "false"
-		import:     "k8s.io/api/apiregistration/v1"
+		package:    "k8s.io/api/apiregistration/v1"
 	}
 	"apps/v1": {
 		ControllerRevision: {
 			name:       "controllerrevisions"
 			namespaced: "true"
-			import:     "k8s.io/api/apps/v1"
+			package:    "k8s.io/api/apps/v1"
 		}
 		DaemonSet: {
 			name:       "daemonsets"
@@ -168,7 +178,7 @@ cluster: apiResources: {
 			shortnames: [
 				"ds",
 			]
-			import: "k8s.io/api/apps/v1"
+			package: "k8s.io/api/apps/v1"
 		}
 		Deployment: {
 			name:       "deployments"
@@ -176,7 +186,7 @@ cluster: apiResources: {
 			shortnames: [
 				"deploy",
 			]
-			import: "k8s.io/api/apps/v1"
+			package: "k8s.io/api/apps/v1"
 		}
 		ReplicaSet: {
 			name:       "replicasets"
@@ -184,7 +194,7 @@ cluster: apiResources: {
 			shortnames: [
 				"rs",
 			]
-			import: "k8s.io/api/apps/v1"
+			package: "k8s.io/api/apps/v1"
 		}
 		StatefulSet: {
 			name:       "statefulsets"
@@ -192,41 +202,41 @@ cluster: apiResources: {
 			shortnames: [
 				"sts",
 			]
-			import: "k8s.io/api/apps/v1"
+			package: "k8s.io/api/apps/v1"
 		}
 	}
 	"authentication.k8s.io/v1": {
 		SelfSubjectReview: {
 			name:       "selfsubjectreviews"
 			namespaced: "false"
-			import:     "k8s.io/api/authentication/v1"
+			package:    "k8s.io/api/authentication/v1"
 		}
 		TokenReview: {
 			name:       "tokenreviews"
 			namespaced: "false"
-			import:     "k8s.io/api/authentication/v1"
+			package:    "k8s.io/api/authentication/v1"
 		}
 	}
 	"authorization.k8s.io/v1": {
 		LocalSubjectAccessReview: {
 			name:       "localsubjectaccessreviews"
 			namespaced: "true"
-			import:     "k8s.io/api/authorization/v1"
+			package:    "k8s.io/api/authorization/v1"
 		}
 		SelfSubjectAccessReview: {
 			name:       "selfsubjectaccessreviews"
 			namespaced: "false"
-			import:     "k8s.io/api/authorization/v1"
+			package:    "k8s.io/api/authorization/v1"
 		}
 		SelfSubjectRulesReview: {
 			name:       "selfsubjectrulesreviews"
 			namespaced: "false"
-			import:     "k8s.io/api/authorization/v1"
+			package:    "k8s.io/api/authorization/v1"
 		}
 		SubjectAccessReview: {
 			name:       "subjectaccessreviews"
 			namespaced: "false"
-			import:     "k8s.io/api/authorization/v1"
+			package:    "k8s.io/api/authorization/v1"
 		}
 	}
 	"autoscaling/v2": HorizontalPodAutoscaler: {
@@ -235,7 +245,7 @@ cluster: apiResources: {
 		shortnames: [
 			"hpa",
 		]
-		import: "k8s.io/api/autoscaling/v2"
+		package: "k8s.io/api/autoscaling/v2"
 	}
 	"batch/v1": {
 		CronJob: {
@@ -244,12 +254,12 @@ cluster: apiResources: {
 			shortnames: [
 				"cj",
 			]
-			import: "k8s.io/api/batch/v1"
+			package: "k8s.io/api/batch/v1"
 		}
 		Job: {
 			name:       "jobs"
 			namespaced: "true"
-			import:     "k8s.io/api/batch/v1"
+			package:    "k8s.io/api/batch/v1"
 		}
 	}
 	"certificates.k8s.io/v1": CertificateSigningRequest: {
@@ -258,17 +268,17 @@ cluster: apiResources: {
 		shortnames: [
 			"csr",
 		]
-		import: "k8s.io/api/certificates/v1"
+		package: "k8s.io/api/certificates/v1"
 	}
 	"coordination.k8s.io/v1": Lease: {
 		name:       "leases"
 		namespaced: "true"
-		import:     "k8s.io/api/coordination/v1"
+		package:    "k8s.io/api/coordination/v1"
 	}
 	"discovery.k8s.io/v1": EndpointSlice: {
 		name:       "endpointslices"
 		namespaced: "true"
-		import:     "k8s.io/api/discovery/v1"
+		package:    "k8s.io/api/discovery/v1"
 	}
 	"events.k8s.io/v1": Event: {
 		name:       "events"
@@ -276,25 +286,25 @@ cluster: apiResources: {
 		shortnames: [
 			"ev",
 		]
-		import: "k8s.io/api/events/v1"
+		package: "k8s.io/api/events/v1"
 	}
 	"flowcontrol.apiserver.k8s.io/v1": {
 		FlowSchema: {
 			name:       "flowschemas"
 			namespaced: "false"
-			import:     "k8s.io/api/flowcontrol.apiserver/v1"
+			package:    "k8s.io/api/flowcontrol.apiserver/v1"
 		}
 		PriorityLevelConfiguration: {
 			name:       "prioritylevelconfigurations"
 			namespaced: "false"
-			import:     "k8s.io/api/flowcontrol.apiserver/v1"
+			package:    "k8s.io/api/flowcontrol.apiserver/v1"
 		}
 	}
 	"networking.k8s.io/v1": {
 		IngressClass: {
 			name:       "ingressclasses"
 			namespaced: "false"
-			import:     "k8s.io/api/networking/v1"
+			package:    "k8s.io/api/networking/v1"
 		}
 		Ingress: {
 			name:       "ingresses"
@@ -302,7 +312,7 @@ cluster: apiResources: {
 			shortnames: [
 				"ing",
 			]
-			import: "k8s.io/api/networking/v1"
+			package: "k8s.io/api/networking/v1"
 		}
 		NetworkPolicy: {
 			name:       "networkpolicies"
@@ -310,13 +320,13 @@ cluster: apiResources: {
 			shortnames: [
 				"netpol",
 			]
-			import: "k8s.io/api/networking/v1"
+			package: "k8s.io/api/networking/v1"
 		}
 	}
 	"node.k8s.io/v1": RuntimeClass: {
 		name:       "runtimeclasses"
 		namespaced: "false"
-		import:     "k8s.io/api/node/v1"
+		package:    "k8s.io/api/node/v1"
 	}
 	"policy/v1": PodDisruptionBudget: {
 		name:       "poddisruptionbudgets"
@@ -324,28 +334,28 @@ cluster: apiResources: {
 		shortnames: [
 			"pdb",
 		]
-		import: "k8s.io/api/policy/v1"
+		package: "k8s.io/api/policy/v1"
 	}
 	"rbac.authorization.k8s.io/v1": {
 		ClusterRoleBinding: {
 			name:       "clusterrolebindings"
 			namespaced: "false"
-			import:     "k8s.io/api/rbac.authorization/v1"
+			package:    "k8s.io/api/rbac.authorization/v1"
 		}
 		ClusterRole: {
 			name:       "clusterroles"
 			namespaced: "false"
-			import:     "k8s.io/api/rbac.authorization/v1"
+			package:    "k8s.io/api/rbac.authorization/v1"
 		}
 		RoleBinding: {
 			name:       "rolebindings"
 			namespaced: "true"
-			import:     "k8s.io/api/rbac.authorization/v1"
+			package:    "k8s.io/api/rbac.authorization/v1"
 		}
 		Role: {
 			name:       "roles"
 			namespaced: "true"
-			import:     "k8s.io/api/rbac.authorization/v1"
+			package:    "k8s.io/api/rbac.authorization/v1"
 		}
 	}
 	"scheduling.k8s.io/v1": PriorityClass: {
@@ -354,23 +364,23 @@ cluster: apiResources: {
 		shortnames: [
 			"pc",
 		]
-		import: "k8s.io/api/scheduling/v1"
+		package: "k8s.io/api/scheduling/v1"
 	}
 	"storage.k8s.io/v1": {
 		CSIDriver: {
 			name:       "csidrivers"
 			namespaced: "false"
-			import:     "k8s.io/api/storage/v1"
+			package:    "k8s.io/api/storage/v1"
 		}
 		CSINode: {
 			name:       "csinodes"
 			namespaced: "false"
-			import:     "k8s.io/api/storage/v1"
+			package:    "k8s.io/api/storage/v1"
 		}
 		CSIStorageCapacity: {
 			name:       "csistoragecapacities"
 			namespaced: "true"
-			import:     "k8s.io/api/storage/v1"
+			package:    "k8s.io/api/storage/v1"
 		}
 		StorageClass: {
 			name:       "storageclasses"
@@ -378,12 +388,12 @@ cluster: apiResources: {
 			shortnames: [
 				"sc",
 			]
-			import: "k8s.io/api/storage/v1"
+			package: "k8s.io/api/storage/v1"
 		}
 		VolumeAttachment: {
 			name:       "volumeattachments"
 			namespaced: "false"
-			import:     "k8s.io/api/storage/v1"
+			package:    "k8s.io/api/storage/v1"
 		}
 	}
 }

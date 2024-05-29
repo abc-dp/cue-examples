@@ -3,9 +3,9 @@ package kue
 import (
 	"encoding/yaml"
 	"strings"
-
-	corev1 "k8s.io/api/core/v1"
 )
+
+cluster: _
 
 #KUE: {
 	// resources definition in tree form to be provided by user
@@ -16,7 +16,6 @@ import (
 		[R=_]: [N=_]: _ar[strings.ToLower(R)] & {
 			metadata: name: N
 		}
-		bindings: [_]: corev1.#Binding
 	}
 
 	_ar: {
