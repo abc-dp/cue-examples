@@ -1,4 +1,4 @@
-package kue
+package cluster
 
 import (
 	"encoding/json"
@@ -10,31 +10,46 @@ import (
 )
 
 command: {
-	_pkgId: {for p in [for v, vv in cluster.apiResources {for k, kv in vv {kv.package}}] {
-		(p): regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), "")
+	_pkgId: {for p in [for v, vv in cluster.apiResources for k, kv in vv {kv.package}] {
+		(p): strings.Replace(regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), ""), "apiserver", "", -1)
 	}}
-	"kue-imports": cli.Print & {
-		text: strings.Join([for p, i in _pkgId {#"\#(i) "\#(p)""#}], "\n")
+	imports: cli.Print & {
+		_exclude: {
+			apiextensionsv1:   _
+			apiregistrationv1: _
+		}
+		text: strings.Join([for p, i in _pkgId if _exclude[i] == _|_ let P = regexp.ReplaceAll("\\.[^/]*(/[^/]+)$", p, "$1") {
+			#"\#(i) "\#(P)""#
+		}], "\n")
 	}
-	// "kue-defs": cli.Print & {
-	// 	text: strings.Join([for v, vv in cluster.apiResources {for k, kv in vv {"foo"
-	// 		// let I = _pkgId[kv.import]
-	// 		// "\(kv.name): [_]: \(I).#\(k)"
-	// 	}}], "\n")
-	// }
-	"kue-api-resources": {
+	defs: cli.Print & {
+		_exclude: {
+			customresourcedefinitions: _
+			apiservices:               _
+		}
+		text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {
+			"\(kv.name)?: [_]: \(_pkgId[kv.package]).#\(k)"
+		}], "\n")
+	}
+	examples: cli.Print & {
+		text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv {"\(kv.name): exp: _"}], "\n")
+	}
+	"api-resources": {
 		run: exec.Run & {
 			cmd:    "kubectl api-resources"
 			stdout: string
 		}
 		mkdir: file.Mkdir & {
-			path: ".kue"
+			path: ".cluster"
 		}
 		txt: file.Create & {
 			filename: "\(mkdir.path)/api-resources.txt"
 			contents: run.stdout
 		}
-		"json": file.Create & {
+		txtPrint: cli.Print & {
+			text: strings.Join([run.cmd, txt.contents], "\n\n")
+		}
+		J="json": file.Create & {
 			_locals: {
 				lines:   strings.Split(run.stdout, "\n")
 				headers: strings.Fields(lines[0])
@@ -65,6 +80,10 @@ command: {
 			}
 			filename: "\(mkdir.path)/api-resources.json"
 			contents: json.Indent(json.Marshal(_locals.gvk), "", "  ")
+		}
+		jsonPrint: cli.Print & {
+			$after: txtPrint
+			text: strings.Join(["Convert to JSON", J.contents], "\n\n")
 		}
 	}
 }

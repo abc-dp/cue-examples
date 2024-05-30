@@ -1,4 +1,4 @@
-package kue
+package cluster
 
 cluster: apiResources: {
 	v1: {
