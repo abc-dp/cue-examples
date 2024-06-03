@@ -13,7 +13,7 @@ command: {
 	_pkgId: {for p in [for v, vv in cluster.apiResources for k, kv in vv {kv.package}] {
 		(p): strings.Replace(regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), ""), "apiserver", "", -1)
 	}}
-	let FN = "cluster.cue"
+	let FN = "cluster_gen.cue"
 	generate: {
 		imports: cli.Print & {
 			_exclude: {
@@ -21,7 +21,7 @@ command: {
 				apiregistrationv1: _
 			}
 			text: strings.Join([for p, i in _pkgId if _exclude[i] == _|_ let P = regexp.ReplaceAll("\\.[^/]*(/[^/]+)$", p, "$1") {
-				#"\#(i) "\#(P)""#
+				#"\#t\#(i) "\#(P)""#
 			}], "\n")
 		}
 		defs: cli.Print & {
@@ -31,26 +31,21 @@ command: {
 				apiservices:               _
 			}
 			text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {
-				"\(kv.name)?: [_]: \(_pkgId[kv.package]).#\(k)"
+				"\t\(kv.name)?: [_]: \(_pkgId[kv.package]).#\(k)"
 			}], "\n")
 		}
-		read: file.Read & {
-			filename: FN
-			contents: string
-		}
-		remove: file.RemoveAll & {
-			$after: read
-			path:   FN
-		}
 		create: file.Create & {
-			$after: remove
-			let I = "\t// cue cmd imports\n"
-			let D = "\t// cue cmd defs\n"
 			filename: FN
-			contents: regexp.ReplaceAll(
-					"\(D).*\(D)",
-					regexp.ReplaceAll("\(I).*\(I)", read.contents, "\(I)\(imports.text)\n\(I)"),
-					"\(D)\(defs.text)\n\(D)")
+			contents: """
+				package cluster
+
+				import (
+					\(imports.text)
+				)
+				#Cluster: #resources: {
+					\(defs.text)
+				}
+				"""
 		}
 		fmt: exec.Run & {
 			$after: create
