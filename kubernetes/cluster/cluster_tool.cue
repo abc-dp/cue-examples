@@ -10,11 +10,25 @@ import (
 )
 
 command: {
-	_pkgId: {for p in [for v, vv in cluster.apiResources for k, kv in vv {kv.package}] {
+	_pkgId: {for p in [for v, vv in apiResources for k, kv in vv {kv.package}] {
 		(p): strings.Replace(regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), ""), "apiserver", "", -1)
 	}}
-	let FN = "cluster_gen.cue"
+	init: {
+		ar: exec.Run & {
+			cmd: "cue cmd api-resources"
+		}
+		import: exec.Run & {
+			after: ar
+			let G = "api_resources_gen.cue"
+			cmd: #"cue import --force --package cluster --path "apiResources" \#(AR.json.filename) --outfile \#(G)"#
+		}
+		generate: exec.Run & {
+			after: import
+			cmd:   "cue cmd generate"
+		}
+	}
 	generate: {
+		let FN = "cluster_gen.cue"
 		imports: cli.Print & {
 			_exclude: {
 				apiextensionsv1:   _
@@ -30,7 +44,7 @@ command: {
 				customresourcedefinitions: _
 				apiservices:               _
 			}
-			text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {
+			text: strings.Join([for v, vv in apiResources for k, kv in vv if _exclude[kv.name] == _|_ {
 				"\t\(kv.name)?: [_]: \(_pkgId[kv.package]).#\(k)"
 			}], "\n")
 		}
@@ -52,11 +66,7 @@ command: {
 			cmd:    "cue fmt \(FN)"
 		}
 	}
-	examples: cli.Print & {
-		_exclude: events: _
-		text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {"\(kv.name): exp: _"}], "\n")
-	}
-	"api-resources": {
+	AR="api-resources": {
 		run: exec.Run & {
 			cmd:    "kubectl api-resources"
 			stdout: string
@@ -107,5 +117,9 @@ command: {
 			$after: txtPrint
 			text: strings.Join(["Convert to JSON", J.contents], "\n\n")
 		}
+	}
+	examples: cli.Print & {
+		_exclude: events: _
+		text: strings.Join([for v, vv in apiResources for k, kv in vv if _exclude[kv.name] == _|_ {"\(kv.name): exp: _"}], "\n")
 	}
 }

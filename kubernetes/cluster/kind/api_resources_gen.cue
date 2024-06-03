@@ -1,6 +1,6 @@
 package cluster
 
-cluster: apiResources: {
+apiResources: {
 	v1: {
 		Binding: {
 			name:       "bindings"
