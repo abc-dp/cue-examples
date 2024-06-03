@@ -120,6 +120,6 @@ command: {
 	}
 	examples: cli.Print & {
 		_exclude: events: _
-		text: strings.Join([for v, vv in apiResources for k, kv in vv if _exclude[kv.name] == _|_ {"\(kv.name): exp: _"}], "\n")
+		text: strings.Join([for v, vv in apiResources for k, kv in vv if _exclude[kv.name] == _|_ {"\(kv.name): ex: _"}], "\n")
 	}
 }
