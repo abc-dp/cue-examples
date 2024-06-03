@@ -1,8 +1,8 @@
 package kubernetes
 
-import "github.com/abc-dp/cue-examples/kubernetes/cluster"
+import kind "github.com/abc-dp/cue-examples/kubernetes/cluster/kind:cluster"
 
-k: cluster.#Cluster & {
+k: kind.#Cluster & {
 	#resources: {
 		bindings: exp:          _
 		componentstatuses: exp: _
