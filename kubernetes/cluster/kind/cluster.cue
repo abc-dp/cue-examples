@@ -3,7 +3,7 @@ package cluster
 import (
 	"encoding/yaml"
 	"strings"
-
+	// cue cmd imports
 	corev1 "k8s.io/api/core/v1"
 	admissionregistrationv1 "k8s.io/api/admissionregistration/v1"
 	appsv1 "k8s.io/api/apps/v1"
@@ -22,6 +22,7 @@ import (
 	rbacauthorizationv1 "k8s.io/api/rbac/v1"
 	schedulingv1 "k8s.io/api/scheduling/v1"
 	storagev1 "k8s.io/api/storage/v1"
+	// cue cmd imports
 )
 
 #Cluster: {
@@ -31,6 +32,7 @@ import (
 	// e.g. `#resources: deploy: dp: _`
 	#resources: {
 		[R=_]: [N=_]: _ar[strings.ToLower(R)] & {metadata: name: N}
+		// cue cmd defs
 		bindings?: [_]:                          corev1.#Binding
 		componentstatuses?: [_]:                 corev1.#ComponentStatus
 		configmaps?: [_]:                        corev1.#ConfigMap
@@ -87,6 +89,7 @@ import (
 		csistoragecapacities?: [_]:              storagev1.#CSIStorageCapacity
 		storageclasses?: [_]:                    storagev1.#StorageClass
 		volumeattachments?: [_]:                 storagev1.#VolumeAttachment
+		// cue cmd defs
 	}
 
 	_ar: {

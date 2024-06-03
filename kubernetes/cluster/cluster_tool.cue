@@ -13,26 +13,53 @@ command: {
 	_pkgId: {for p in [for v, vv in cluster.apiResources for k, kv in vv {kv.package}] {
 		(p): strings.Replace(regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), ""), "apiserver", "", -1)
 	}}
-	imports: cli.Print & {
-		_exclude: {
-			apiextensionsv1:   _
-			apiregistrationv1: _
+	let FN = "cluster.cue"
+	generate: {
+		imports: cli.Print & {
+			_exclude: {
+				apiextensionsv1:   _
+				apiregistrationv1: _
+			}
+			text: strings.Join([for p, i in _pkgId if _exclude[i] == _|_ let P = regexp.ReplaceAll("\\.[^/]*(/[^/]+)$", p, "$1") {
+				#"\#(i) "\#(P)""#
+			}], "\n")
 		}
-		text: strings.Join([for p, i in _pkgId if _exclude[i] == _|_ let P = regexp.ReplaceAll("\\.[^/]*(/[^/]+)$", p, "$1") {
-			#"\#(i) "\#(P)""#
-		}], "\n")
-	}
-	defs: cli.Print & {
-		_exclude: {
-			customresourcedefinitions: _
-			apiservices:               _
+		defs: cli.Print & {
+			$after: imports
+			_exclude: {
+				customresourcedefinitions: _
+				apiservices:               _
+			}
+			text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {
+				"\(kv.name)?: [_]: \(_pkgId[kv.package]).#\(k)"
+			}], "\n")
 		}
-		text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {
-			"\(kv.name)?: [_]: \(_pkgId[kv.package]).#\(k)"
-		}], "\n")
+		read: file.Read & {
+			filename: FN
+			contents: string
+		}
+		remove: file.RemoveAll & {
+			$after: read
+			path:   FN
+		}
+		create: file.Create & {
+			$after: remove
+			let I = "\t// cue cmd imports\n"
+			let D = "\t// cue cmd defs\n"
+			filename: FN
+			contents: regexp.ReplaceAll(
+					"\(D).*\(D)",
+					regexp.ReplaceAll("\(I).*\(I)", read.contents, "\(I)\(imports.text)\n\(I)"),
+					"\(D)\(defs.text)\n\(D)")
+		}
+		fmt: exec.Run & {
+			$after: create
+			cmd:    "cue fmt \(FN)"
+		}
 	}
 	examples: cli.Print & {
-		text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv {"\(kv.name): exp: _"}], "\n")
+		_exclude: events: _
+		text: strings.Join([for v, vv in cluster.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {"\(kv.name): exp: _"}], "\n")
 	}
 	"api-resources": {
 		run: exec.Run & {
