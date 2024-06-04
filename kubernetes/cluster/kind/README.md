@@ -2,5 +2,5 @@
 
 ```sh
 kind create cluster
-cue cmd init
+cue cmd kue-init
 ```
