@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:abc-dp/kue.git
+	branch = main
+	commit = 3d754ef147f6f30afb8b394a6df2af7965fba29e
+	parent = 2c344d9da8aa7ac664d257939ee5fbfdb836d6fe
+	method = merge
+	cmdver = 0.4.6
