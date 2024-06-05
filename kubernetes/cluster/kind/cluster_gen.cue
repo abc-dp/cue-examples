@@ -20,7 +20,7 @@ import (
 	schedulingv1 "k8s.io/api/scheduling/v1"
 	storagev1 "k8s.io/api/storage/v1"
 
-	"github.com/abc-dp/cue-examples/kubernetes/kue"
+	"github.com/abc-dp/kue"
 )
 
 #Cluster: kue.#Cluster & {

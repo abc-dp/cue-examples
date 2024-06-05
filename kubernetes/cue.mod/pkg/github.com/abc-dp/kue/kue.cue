@@ -88,7 +88,7 @@ import (
 				import (
 					\(imports.text)
 
-					"github.com/abc-dp/cue-examples/kubernetes/kue"
+					"github.com/abc-dp/kue"
 				)
 				#Cluster: kue.#Cluster & {
 					#apiResources: apiResources
