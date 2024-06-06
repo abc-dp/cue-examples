@@ -2,7 +2,7 @@ package kubernetes
 
 import kind "github.com/abc-dp/cue-examples/kubernetes/cluster/kind:cluster"
 
-k: kind.#Cluster & {
+k: kind.#kue & {
 	#resources: {
 		// pushd cluster/kind && cue cmd examples && popd
 		bindings: ex:                          _

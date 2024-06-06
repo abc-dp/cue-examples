@@ -23,7 +23,7 @@ import (
 	"github.com/abc-dp/kue"
 )
 
-#Cluster: kue.#Cluster & {
+#kue: kue.#KUE & {
 	#apiResources: apiResources
 	#resources: {
 		bindings?: [_]:                          corev1.#Binding
