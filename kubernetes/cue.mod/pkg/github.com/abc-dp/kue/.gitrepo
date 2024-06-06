@@ -5,8 +5,8 @@
 ;
 [subrepo]
 	remote = git@github.com:abc-dp/kue.git
-	branch = main
-	commit = 4b0f31d56d374bf72a513334ee522494ce92af40
-	parent = c689c4a94d87fbe606d48ab64243ad78ef972f34
+	branch = dev
+	commit = e246456df28140aa6c634fe3cee025dea4649aaf
+	parent = 6a830265435ebf932bb0507b81e8c2a6c78bd4b1
 	method = merge
 	cmdver = 0.4.6
