@@ -1,3 +1,6 @@
 package sops
 
-sops: secretKey: _
+config: {
+	key:       "value"
+	secretKey: _
+}

@@ -2,45 +2,60 @@ package sue
 
 import (
 	"strings"
+	"tool/cli"
 	"tool/exec"
 	"tool/file"
 )
 
 // Decrypt secret value from sops encrypted file
-#Command: sue: {
-	#vars: {
+#Command: {
+	#var: {
 		enc: filename: *"sops.enc.yaml" | _
 		package: *"sops" | _
-		path: ["sops", "dec"]
+		path: *["sops", "dec"] | _
 		expression: *strings.Join(path, ".") | _
 	}
-	#locals: {
+	#local: {
 		dec: {
-			filename: strings.Replace(#vars.enc.filename, ".enc.", ".dec.", 1)
+			filename: strings.Replace(#var.enc.filename, ".enc.", ".dec.", 1)
 			imported: strings.Join([filename, "cue"], ".")
 		}
-		path: strings.Join([for p in #vars.path {#"--path "\#(p)""#}], " ")
+		path: strings.Join([for p in #var.path {#"--path "\#(p)""#}], " ")
 	}
-	decrypt: exec.Run & {
-		cmd:    "sops --decrypt \(#vars.enc.filename)"
-		stdout: string
+	"sue-encrypt": {
+		encrypt: exec.Run & {
+			cmd:    "sops --encrypt \(#local.dec.filename)"
+			stdout: string
+		}
+		output: file.Create & {
+			filename: #var.enc.filename
+			contents: encrypt.stdout
+		}
+		print: cli.Print & {
+			$after: output
+			text:   "Encrypted \(#local.dec.filename) to \(#var.enc.filename)"
+		}
 	}
-	output: file.Create & {
-		filename: #locals.dec.filename
-		contents: decrypt.stdout
-	}
-	import: exec.Run & {
-		$after: decrypt
-		cmd:    "cue import \(#locals.dec.filename) \(#locals.path) --package \(#vars.package) --force --outfile \(#locals.dec.imported)"
-	}
-	export: exec.Run & {
-		$after: import
-		cmd:    "cue export --package \(#vars.package) --expression \(#vars.expression)"
-	}
-	for p in #locals.dec {
-		"remove_\(p)": file.RemoveAll & {
-			$after: export
-			path:   p
+	sue: {
+		decrypt: exec.Run & {
+			cmd:    "sops --decrypt \(#var.enc.filename)"
+			stdout: string
+		}
+		output: file.Create & {
+			filename: #local.dec.filename
+			contents: decrypt.stdout
+		}
+		import: exec.Run & {
+			$after: output
+			cmd:    "cue import \(output.filename) \(#local.path) --package \(#var.package) --force --outfile \(#local.dec.imported)"
+		}
+		export: exec.Run & {
+			$after: import
+			cmd:    "cue export --package \(#var.package) --expression \(#var.expression)"
+		}
+		remove: file.RemoveAll & {
+			$after: import
+			path:   output.filename
 		}
 	}
 }

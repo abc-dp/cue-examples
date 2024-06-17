@@ -6,8 +6,9 @@ Decrypt secret values from sops encrypted file
 
 ```sh
 cd sops
-cue cmd sops
+cue cmd sue
 {
+    "key": "value",
     "secretKey": "secret value"
 }
 ```
