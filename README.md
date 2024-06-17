@@ -16,9 +16,9 @@ cue cmd sue
 Use module
 
 ```sh
-git subrepo clone git@github.com:abc-dp/sue.git kubernetes/cue.mod/pkg/github.com/abc-dp/sue
-git subrepo pull kubernetes/cue.mod/pkg/github.com/abc-dp/sue
-git subrepo push kubernetes/cue.mod/pkg/github.com/abc-dp/sue
+git subrepo clone git@github.com:abc-dp/sue.git sops/cue.mod/pkg/github.com/abc-dp/sue
+git subrepo pull sops/cue.mod/pkg/github.com/abc-dp/sue
+git subrepo push sops/cue.mod/pkg/github.com/abc-dp/sue
 ```
 
 ## kubernetes
