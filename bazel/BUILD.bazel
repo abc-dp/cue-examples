@@ -1,0 +1,11 @@
+load(
+    "@rules_cue//cue:cue.bzl",
+    "cue_instance",
+)
+
+cue_instance(
+    name = "bazel",
+    srcs = ["bazel.cue"],
+    ancestor = "//bazel/cue.mod",
+    visibility = ["//bazel:__subpackages__"],
+)
