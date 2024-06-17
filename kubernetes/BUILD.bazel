@@ -8,5 +8,4 @@ cue_instance(
     srcs = ["kubernetes.cue"],
     ancestor = "//kubernetes/cue.mod",
     visibility = ["//kubernetes:__subpackages__"],
-    deps = ["//kubernetes/kue"],
 )
