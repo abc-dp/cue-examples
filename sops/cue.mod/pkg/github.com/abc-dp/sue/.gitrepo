@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:abc-dp/sue.git
 	branch = main
-	commit = 123b28e6f4154810af16660f8a2c8febe81920b4
-	parent = 8bc6fb5e0b30dce16e89c3c8e2b45b655bdc353b
+	commit = 54d857f3dd982fbf8fab0b909e70f3ed2a04ae17
+	parent = b20bcde1b434f90ccea45596ab7e0a66ff91c07e
 	method = merge
 	cmdver = 0.4.6
