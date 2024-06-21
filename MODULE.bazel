@@ -16,3 +16,11 @@ git_override(
     commit = "e36857b348fe02fbedda41cbd3dcd3c4146dba86",
     remote = "https://github.com/abc-dp/rules_cue.git",
 )
+
+cue = use_extension("@rules_cue//cue:extensions.bzl", "cue")
+use_repo(
+    cue,
+    "cue_tool_toolchains",
+)
+
+register_toolchains("@cue_tool_toolchains//:all")

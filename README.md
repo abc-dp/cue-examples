@@ -1,5 +1,13 @@
 # CUE Examples
 
+## cue
+
+```sh
+bazel run @rules_cue//cue -- version
+...
+cue version v0.9.1
+```
+
 ## sops
 
 Decrypt secret values from sops encrypted file
