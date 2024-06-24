@@ -2,8 +2,11 @@ package cluster
 
 import "github.com/abc-dp/kue"
 
-if apiResources != _|_ {
+if kubernetes.apiResources != _|_ {
 	command: kue.#Command & {
-		#apiResources: apiResources
+		#var: {
+			apiResources: kubernetes.apiResources
+			package:      "cluster"
+		}
 	}
 }

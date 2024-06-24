@@ -24,7 +24,7 @@ import (
 )
 
 #kue: kue.#KUE & {
-	#apiResources: apiResources
+	#apiResources: kubernetes.apiResources
 	#resources: {
 		bindings?: [_]:                          corev1.#Binding
 		componentstatuses?: [_]:                 corev1.#ComponentStatus

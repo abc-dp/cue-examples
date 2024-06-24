@@ -1,3 +1,3 @@
 package cluster
 
-apiResources: _
+kubernetes: apiResources: _

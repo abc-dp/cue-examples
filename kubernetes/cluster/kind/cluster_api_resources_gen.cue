@@ -1,6 +1,6 @@
 package cluster
 
-apiResources: {
+kubernetes: apiResources: {
 	v1: {
 		Binding: {
 			name:       "bindings"
