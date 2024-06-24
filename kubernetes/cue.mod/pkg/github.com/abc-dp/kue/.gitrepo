@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:abc-dp/kue.git
 	branch = main
-	commit = a438fde007dfce38cbdcdacb200747296e68c5a1
-	parent = f6f92bb3bf6e57eb20fc877981b4deb759f278fd
+	commit = 7471e3f31556135734bf8d2fc2c5e4e9e85247d7
+	parent = 317ee737bfb5858688a95c939811a95b9bf9d1a3
 	method = merge
 	cmdver = 0.4.6
