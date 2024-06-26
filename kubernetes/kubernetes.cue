@@ -4,7 +4,7 @@ import kind "github.com/abc-dp/cue-examples/kubernetes/cluster/kind:cluster"
 
 k: kind.#kue & {
 	#resources: {
-		// pushd cluster/kind && cue cmd examples && popd
+		// pushd cluster/kind && cue cmd kue-examples && popd
 		bindings: ex:                          _
 		componentstatuses: ex:                 _
 		configmaps: ex:                        _
@@ -21,12 +21,12 @@ k: kind.#kue & {
 		secrets: ex:                           _
 		serviceaccounts: ex:                   _
 		services: ex:                          _
+		challenges: ex:                        _
+		orders: ex:                            _
 		mutatingwebhookconfigurations: ex:     _
 		validatingadmissionpolicies: ex:       _
 		validatingadmissionpolicybindings: ex: _
 		validatingwebhookconfigurations: ex:   _
-		customresourcedefinitions: ex:         _
-		apiservices: ex:                       _
 		controllerrevisions: ex:               _
 		daemonsets: ex:                        _
 		deployments: ex:                       _
@@ -41,6 +41,10 @@ k: kind.#kue & {
 		horizontalpodautoscalers: ex:          _
 		cronjobs: ex:                          _
 		jobs: ex:                              _
+		certificaterequests: ex:               _
+		certificates: ex:                      _
+		clusterissuers: ex:                    _
+		issuers: ex:                           _
 		certificatesigningrequests: ex:        _
 		leases: ex:                            _
 		endpointslices: ex:                    _

@@ -130,6 +130,18 @@ kubernetes: apiResources: {
 			package: "k8s.io/api/core/v1"
 		}
 	}
+	"acme.cert-manager.io/v1": {
+		Challenge: {
+			name:       "challenges"
+			namespaced: "true"
+			package:    "acme.cert-manager.io/challenge/v1"
+		}
+		Order: {
+			name:       "orders"
+			namespaced: "true"
+			package:    "acme.cert-manager.io/order/v1"
+		}
+	}
 	"admissionregistration.k8s.io/v1": {
 		MutatingWebhookConfiguration: {
 			name:       "mutatingwebhookconfigurations"
@@ -151,20 +163,6 @@ kubernetes: apiResources: {
 			namespaced: "false"
 			package:    "k8s.io/api/admissionregistration/v1"
 		}
-	}
-	"apiextensions.k8s.io/v1": CustomResourceDefinition: {
-		name:       "customresourcedefinitions"
-		namespaced: "false"
-		shortnames: [
-			"crd",
-			"crds",
-		]
-		package: "k8s.io/api/apiextensions/v1"
-	}
-	"apiregistration.k8s.io/v1": APIService: {
-		name:       "apiservices"
-		namespaced: "false"
-		package:    "k8s.io/api/apiregistration/v1"
 	}
 	"apps/v1": {
 		ControllerRevision: {
@@ -262,6 +260,36 @@ kubernetes: apiResources: {
 			package:    "k8s.io/api/batch/v1"
 		}
 	}
+	"cert-manager.io/v1": {
+		CertificateRequest: {
+			name:       "certificaterequests"
+			namespaced: "true"
+			shortnames: [
+				"cr",
+				"crs",
+			]
+			package: "cert-manager.io/certificaterequest/v1"
+		}
+		Certificate: {
+			name:       "certificates"
+			namespaced: "true"
+			shortnames: [
+				"cert",
+				"certs",
+			]
+			package: "cert-manager.io/certificate/v1"
+		}
+		ClusterIssuer: {
+			name:       "clusterissuers"
+			namespaced: "false"
+			package:    "cert-manager.io/clusterissuer/v1"
+		}
+		Issuer: {
+			name:       "issuers"
+			namespaced: "true"
+			package:    "cert-manager.io/issuer/v1"
+		}
+	}
 	"certificates.k8s.io/v1": CertificateSigningRequest: {
 		name:       "certificatesigningrequests"
 		namespaced: "false"
@@ -292,12 +320,12 @@ kubernetes: apiResources: {
 		FlowSchema: {
 			name:       "flowschemas"
 			namespaced: "false"
-			package:    "k8s.io/api/flowcontrol.apiserver/v1"
+			package:    "k8s.io/api/flowcontrol/v1"
 		}
 		PriorityLevelConfiguration: {
 			name:       "prioritylevelconfigurations"
 			namespaced: "false"
-			package:    "k8s.io/api/flowcontrol.apiserver/v1"
+			package:    "k8s.io/api/flowcontrol/v1"
 		}
 	}
 	"networking.k8s.io/v1": {
@@ -340,22 +368,22 @@ kubernetes: apiResources: {
 		ClusterRoleBinding: {
 			name:       "clusterrolebindings"
 			namespaced: "false"
-			package:    "k8s.io/api/rbac.authorization/v1"
+			package:    "k8s.io/api/rbac/v1"
 		}
 		ClusterRole: {
 			name:       "clusterroles"
 			namespaced: "false"
-			package:    "k8s.io/api/rbac.authorization/v1"
+			package:    "k8s.io/api/rbac/v1"
 		}
 		RoleBinding: {
 			name:       "rolebindings"
 			namespaced: "true"
-			package:    "k8s.io/api/rbac.authorization/v1"
+			package:    "k8s.io/api/rbac/v1"
 		}
 		Role: {
 			name:       "roles"
 			namespaced: "true"
-			package:    "k8s.io/api/rbac.authorization/v1"
+			package:    "k8s.io/api/rbac/v1"
 		}
 	}
 	"scheduling.k8s.io/v1": PriorityClass: {

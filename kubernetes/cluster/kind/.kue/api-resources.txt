@@ -16,6 +16,8 @@ resourcequotas                      quota        v1                             
 secrets                                          v1                                true         Secret
 serviceaccounts                     sa           v1                                true         ServiceAccount
 services                            svc          v1                                true         Service
+challenges                                       acme.cert-manager.io/v1           true         Challenge
+orders                                           acme.cert-manager.io/v1           true         Order
 mutatingwebhookconfigurations                    admissionregistration.k8s.io/v1   false        MutatingWebhookConfiguration
 validatingadmissionpolicies                      admissionregistration.k8s.io/v1   false        ValidatingAdmissionPolicy
 validatingadmissionpolicybindings                admissionregistration.k8s.io/v1   false        ValidatingAdmissionPolicyBinding
@@ -36,6 +38,10 @@ subjectaccessreviews                             authorization.k8s.io/v1        
 horizontalpodautoscalers            hpa          autoscaling/v2                    true         HorizontalPodAutoscaler
 cronjobs                            cj           batch/v1                          true         CronJob
 jobs                                             batch/v1                          true         Job
+certificaterequests                 cr,crs       cert-manager.io/v1                true         CertificateRequest
+certificates                        cert,certs   cert-manager.io/v1                true         Certificate
+clusterissuers                                   cert-manager.io/v1                false        ClusterIssuer
+issuers                                          cert-manager.io/v1                true         Issuer
 certificatesigningrequests          csr          certificates.k8s.io/v1            false        CertificateSigningRequest
 leases                                           coordination.k8s.io/v1            true         Lease
 endpointslices                                   discovery.k8s.io/v1               true         EndpointSlice
