@@ -168,9 +168,12 @@ import (
 						if r.SHORTNAMES != _|_ {
 							shortnames: strings.Split(r.SHORTNAMES, ",")
 						}
-						let P = strings.Replace(r.APIVERSION, ".k8s.io", "", -1)
+						let AV = r.APIVERSION
+
+						// if or([regexp.Match(".*\\.k8s\\.io(/[^/]*)?", AV), !strings.Contains(".", AV)])
+						let P = strings.Replace(AV, ".k8s.io", "", -1)
 						package: *"k8s.io/api/\(P)" | _
-						if r.APIVERSION == "v1" {
+						if AV == "v1" {
 							package: "k8s.io/api/core/v1"
 						}
 					}
