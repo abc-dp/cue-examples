@@ -128,6 +128,18 @@
       "package": "k8s.io/api/core/v1"
     }
   },
+  "acme.cert-manager.io/v1": {
+    "Challenge": {
+      "name": "challenges",
+      "namespaced": "true",
+      "package": "k8s.io/api/acme.cert-manager.io/v1"
+    },
+    "Order": {
+      "name": "orders",
+      "namespaced": "true",
+      "package": "k8s.io/api/acme.cert-manager.io/v1"
+    }
+  },
   "admissionregistration.k8s.io/v1": {
     "MutatingWebhookConfiguration": {
       "name": "mutatingwebhookconfigurations",
@@ -264,6 +276,36 @@
       "name": "jobs",
       "namespaced": "true",
       "package": "k8s.io/api/batch/v1"
+    }
+  },
+  "cert-manager.io/v1": {
+    "CertificateRequest": {
+      "name": "certificaterequests",
+      "namespaced": "true",
+      "shortnames": [
+        "cr",
+        "crs"
+      ],
+      "package": "k8s.io/api/cert-manager.io/v1"
+    },
+    "Certificate": {
+      "name": "certificates",
+      "namespaced": "true",
+      "shortnames": [
+        "cert",
+        "certs"
+      ],
+      "package": "k8s.io/api/cert-manager.io/v1"
+    },
+    "ClusterIssuer": {
+      "name": "clusterissuers",
+      "namespaced": "false",
+      "package": "k8s.io/api/cert-manager.io/v1"
+    },
+    "Issuer": {
+      "name": "issuers",
+      "namespaced": "true",
+      "package": "k8s.io/api/cert-manager.io/v1"
     }
   },
   "certificates.k8s.io/v1": {

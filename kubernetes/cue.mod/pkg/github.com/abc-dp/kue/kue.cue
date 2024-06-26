@@ -3,7 +3,7 @@ package kue
 import (
 	"encoding/json"
 	"encoding/yaml"
-	ppath "path"
+	"path"
 	"regexp"
 	"strings"
 	"tool/cli"
@@ -42,15 +42,38 @@ import (
 	#var: {
 		apiResources: _
 		package:      *"kue" | _
-		paths: *["kubernetes", "apiResources"] | _
+		path: *["kubernetes", "apiResources"] | _
+		modDir:  *"../.." | _
+		relPath: *"cluster/kind" | _
 	}
-	#local: {
-		pathArgs: strings.Join([for p in #var.paths {"--path \"\(p)\""}], " ")
-		expression: strings.Join(#var.paths, ".")
+	_local: {
+		dir: ".kue"
+		pathArgs: strings.Join([for p in #var.path {"--path \"\(p)\""}], " ")
+		expression: strings.Join(#var.path, ".")
+		pkgId: {for p in [for v, vv in #var.apiResources for k, kv in vv {kv.package}] {
+			(p): strings.Replace(regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), ""), "apiserver", "", -1)
+		}}
 	}
-	_pkgId: {for p in [for v, vv in #var.apiResources for k, kv in vv {kv.package}] {
-		(p): strings.Replace(regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), ""), "apiserver", "", -1)
-	}}
+	"kue-crds": {
+		mkdir: file.Mkdir & {
+			path: _local.dir
+		}
+		get: exec.Run & {
+			cmd:    "kubectl get crds --output=yaml"
+			stdout: string
+		}
+		save: file.Create & {
+			$after: mkdir
+			filename: path.Join([mkdir.path, "crds.yaml"])
+			contents: get.stdout
+		}
+		vendor: exec.Run & {
+			let F = path.Join([#var.relPath, save.filename])
+			$after: save
+			dir:    #var.modDir
+			cmd:    "timoni mod vendor crds --file \(F)"
+		}
+	}
 	"kue-init": {
 		ar: exec.Run & {
 			cmd: "cue cmd kue-api-resources"
@@ -58,7 +81,7 @@ import (
 		import: exec.Run & {
 			after: ar
 			let G = "kue_api_resources_gen.cue"
-			cmd: #"cue import --force --package \#(#var.package) \#(#local.pathArgs) \#(AR.json.filename) --outfile \#(G)"#
+			cmd: #"cue import --force --package \#(#var.package) \#(_local.pathArgs) \#(AR.json.filename) --outfile \#(G)"#
 		}
 		generate: exec.Run & {
 			after: import
@@ -72,7 +95,7 @@ import (
 				apiextensionsv1:   _
 				apiregistrationv1: _
 			}
-			text: strings.Join([for p, i in _pkgId if _exclude[i] == _|_ let P = regexp.ReplaceAll("\\.[^/]*(/[^/]+)$", p, "$1") {
+			text: strings.Join([for p, i in _local.pkgId if _exclude[i] == _|_ let P = regexp.ReplaceAll("\\.[^/]*(/[^/]+)$", p, "$1") {
 				#"\#t\#(i) "\#(P)""#
 			}], "\n")
 		}
@@ -83,7 +106,7 @@ import (
 				apiservices:               _
 			}
 			text: strings.Join([for v, vv in #var.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {
-				"\t\(kv.name)?: [_]: \(_pkgId[kv.package]).#\(k)"
+				"\t\(kv.name)?: [_]: \(_local.pkgId[kv.package]).#\(k)"
 			}], "\n")
 		}
 		create: file.Create & {
@@ -97,7 +120,7 @@ import (
 					"github.com/abc-dp/kue"
 				)
 				#kue: kue.#KUE & {
-					#apiResources: \(#local.expression)
+					#apiResources: \(_local.expression)
 					#resources: {
 						\(defs.text)
 					}
@@ -115,10 +138,10 @@ import (
 			stdout: string
 		}
 		mkdir: file.Mkdir & {
-			path: ".kue"
+			path: _local.dir
 		}
 		txt: file.Create & {
-			filename: ppath.Join([mkdir.path, "api-resources.txt"])
+			filename: path.Join([mkdir.path, "api-resources.txt"])
 			contents: run.stdout
 		}
 		txtPrint: cli.Print & {
@@ -153,7 +176,7 @@ import (
 					}
 				}}
 			}
-			filename: ppath.Join([mkdir.path, "api-resources.json"])
+			filename: path.Join([mkdir.path, "api-resources.json"])
 			contents: json.Indent(json.Marshal(_locals.gvk), "", "  ")
 		}
 		jsonPrint: cli.Print & {
