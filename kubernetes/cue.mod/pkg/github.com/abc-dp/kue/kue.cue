@@ -51,7 +51,7 @@ import (
 		pathArgs: strings.Join([for p in #var.path {"--path \"\(p)\""}], " ")
 		expression: strings.Join(#var.path, ".")
 		pkgId: {for p in [for v, vv in #var.apiResources for k, kv in vv {kv.package}] {
-			(p): strings.Replace(regexp.ReplaceAll("[/.]", strings.TrimPrefix(p, "k8s.io/api/"), ""), "apiserver", "", -1)
+			(p): regexp.ReplaceAll("[/.-]", strings.TrimPrefix(p, "k8s.io/api/"), "_")
 		}}
 	}
 	"kue-crds": {
@@ -161,23 +161,35 @@ import (
 						for i, _ in FLDS {(headers[i]): FLDS[i]}
 					}
 				}]
-				gvk: {for r in _locals.records {
-					(r.APIVERSION): (r.KIND): {
-						name:       r.NAME
-						namespaced: r.NAMESPACED
-						if r.SHORTNAMES != _|_ {
-							shortnames: strings.Split(r.SHORTNAMES, ",")
+				gvk: {
+					[GV=_]: [K=_]: {
+						_local: {
+							version: regexp.ReplaceAll("(.*/)?", GV, "")
+							isK8sApi: (*true | _) & or([regexp.Match(".*\\.k8s\\.io(/[^/]*)?", GV), !strings.Contains(".", GV)])
+							if !isK8sApi {
+								group: strings.Split(GV, "/")[0]
+								pv: strings.Join([_local.group, strings.ToLower(K), _local.version], "/")
+							}
+							if isK8sApi {
+								group: "k8s.io/api"
+								pv:    *regexp.ReplaceAll("\\.[^/]*", GV, "") | _
+								if !strings.Contains(GV, "/") {
+									pv: "core/v1"
+								}
+							}
 						}
-						let AV = r.APIVERSION
-
-						// if or([regexp.Match(".*\\.k8s\\.io(/[^/]*)?", AV), !strings.Contains(".", AV)])
-						let P = strings.Replace(AV, ".k8s.io", "", -1)
-						package: *"k8s.io/api/\(P)" | _
-						if AV == "v1" {
-							package: "k8s.io/api/core/v1"
+						package: strings.Join([_local.group, _local.pv], "/")
+					}
+					for r in _locals.records {
+						(r.APIVERSION): (r.KIND): {
+							name:       r.NAME
+							namespaced: r.NAMESPACED
+							if r.SHORTNAMES != _|_ {
+								shortnames: strings.Split(r.SHORTNAMES, ",")
+							}
 						}
 					}
-				}}
+				}
 			}
 			filename: path.Join([mkdir.path, "api-resources.json"])
 			contents: json.Indent(json.Marshal(_locals.gvk), "", "  ")
