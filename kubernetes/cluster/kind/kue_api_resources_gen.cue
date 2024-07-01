@@ -130,18 +130,6 @@ kubernetes: apiResources: {
 			package:    "k8s.io/api/core/v1"
 		}
 	}
-	"acme.cert-manager.io/v1": {
-		Challenge: {
-			name:       "challenges"
-			namespaced: "true"
-			package:    "k8s.io/api/acme/v1"
-		}
-		Order: {
-			name:       "orders"
-			namespaced: "true"
-			package:    "k8s.io/api/acme/v1"
-		}
-	}
 	"admissionregistration.k8s.io/v1": {
 		MutatingWebhookConfiguration: {
 			name:       "mutatingwebhookconfigurations"
@@ -163,20 +151,6 @@ kubernetes: apiResources: {
 			namespaced: "false"
 			package:    "k8s.io/api/admissionregistration/v1"
 		}
-	}
-	"apiextensions.k8s.io/v1": CustomResourceDefinition: {
-		name: "customresourcedefinitions"
-		shortnames: [
-			"crd",
-			"crds",
-		]
-		namespaced: "false"
-		package:    "k8s.io/api/apiextensions/v1"
-	}
-	"apiregistration.k8s.io/v1": APIService: {
-		name:       "apiservices"
-		namespaced: "false"
-		package:    "k8s.io/api/apiregistration/v1"
 	}
 	"apps/v1": {
 		ControllerRevision: {
@@ -272,36 +246,6 @@ kubernetes: apiResources: {
 			name:       "jobs"
 			namespaced: "true"
 			package:    "k8s.io/api/batch/v1"
-		}
-	}
-	"cert-manager.io/v1": {
-		CertificateRequest: {
-			name: "certificaterequests"
-			shortnames: [
-				"cr",
-				"crs",
-			]
-			namespaced: "true"
-			package:    "k8s.io/api/cert-manager/v1"
-		}
-		Certificate: {
-			name: "certificates"
-			shortnames: [
-				"cert",
-				"certs",
-			]
-			namespaced: "true"
-			package:    "k8s.io/api/cert-manager/v1"
-		}
-		ClusterIssuer: {
-			name:       "clusterissuers"
-			namespaced: "false"
-			package:    "k8s.io/api/cert-manager/v1"
-		}
-		Issuer: {
-			name:       "issuers"
-			namespaced: "true"
-			package:    "k8s.io/api/cert-manager/v1"
 		}
 	}
 	"certificates.k8s.io/v1": CertificateSigningRequest: {

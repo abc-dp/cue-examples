@@ -165,22 +165,15 @@ import (
 					[GV=_]: [K=_]: {
 						_local: {
 							version: regexp.ReplaceAll("(.*/)?", GV, "")
-							isK8sApi: (*true | _) & or([regexp.Match(".*\\.k8s\\.io(/[^/]*)?", GV), !strings.Contains(".", GV)])
-							if !isK8sApi {
-								group: strings.Split(GV, "/")[0]
-								pv: strings.Join([_local.group, strings.ToLower(K), _local.version], "/")
-							}
-							if isK8sApi {
-								group: "k8s.io/api"
-								pv:    *regexp.ReplaceAll("\\.[^/]*", GV, "") | _
-								if !strings.Contains(GV, "/") {
-									pv: "core/v1"
-								}
+							group:   *"k8s.io/api" | _
+							pkgVer:  *regexp.ReplaceAll("\\.[^/]*", GV, "") | _
+							if !strings.Contains(GV, "/") {
+								pkgVer: "core/v1"
 							}
 						}
-						package: strings.Join([_local.group, _local.pv], "/")
+						package: strings.Join([_local.group, _local.pkgVer], "/")
 					}
-					for r in _locals.records {
+					for r in _locals.records if !strings.Contains(r.APIVERSION, ".") || strings.Contains(r.APIVERSION, ".k8s.io/") && !regexp.Match(r.NAME, "(customresourcedefinitions|apiservices)") {
 						(r.APIVERSION): (r.KIND): {
 							name:       r.NAME
 							namespaced: r.NAMESPACED
