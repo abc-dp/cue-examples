@@ -91,21 +91,13 @@ import (
 	"kue-generate": {
 		let FN = "kue_gen.cue"
 		imports: cli.Print & {
-			_exclude: {
-				apiextensionsv1:   _
-				apiregistrationv1: _
-			}
-			text: strings.Join([for p, i in _local.pkgId if _exclude[i] == _|_ let P = regexp.ReplaceAll("\\.[^/]*(/[^/]+)$", p, "$1") {
+			text: strings.Join([for p, i in _local.pkgId let P = regexp.ReplaceAll("\\.[^/]*(/[^/]+)$", p, "$1") {
 				#"\#t\#(i) "\#(P)""#
 			}], "\n")
 		}
 		defs: cli.Print & {
 			$after: imports
-			_exclude: {
-				customresourcedefinitions: _
-				apiservices:               _
-			}
-			text: strings.Join([for v, vv in #var.apiResources for k, kv in vv if _exclude[kv.name] == _|_ {
+			text: strings.Join([for v, vv in #var.apiResources for k, kv in vv {
 				"\t\(kv.name)?: [_]: \(_local.pkgId[kv.package]).#\(k)"
 			}], "\n")
 		}
@@ -161,12 +153,16 @@ import (
 						for i, _ in FLDS {(headers[i]): FLDS[i]}
 					}
 				}]
+				exclude: {
+					customresourcedefinitions: _
+					apiservices:               _
+				}
 				isK8sApi: {
 					[A=_]: regexp.Match(".*\\.k8s\\.io(/[^/]+)", A) || !strings.Contains(A, ".")
 					for r in _locals.records {(r.APIVERSION): _}
 				}
 				gvk: {
-					for r in _locals.records {
+					for r in _locals.records if r.NAME != "customresourcedefinitions" && r.NAME != "apiservices" {
 						(r.APIVERSION): (r.KIND): {
 							name:       r.NAME
 							namespaced: r.NAMESPACED

@@ -5,8 +5,6 @@ import (
 	acme_cert_manager_io_challenge_v1 "acme.cert-manager.io/challenge/v1"
 	acme_cert_manager_io_order_v1 "acme.cert-manager.io/order/v1"
 	admissionregistration_v1 "k8s.io/api/admissionregistration/v1"
-	apiextensions_v1 "k8s.io/api/apiextensions/v1"
-	apiregistration_v1 "k8s.io/api/apiregistration/v1"
 	apps_v1 "k8s.io/api/apps/v1"
 	authentication_v1 "k8s.io/api/authentication/v1"
 	authorization_v1 "k8s.io/api/authorization/v1"
