@@ -28,7 +28,7 @@ pkgId: {
 	"k8s.io/api/core/v1":                    "core_v1"
 }
 
-isK8sApi: [A=_]: or([regexp.Match(".*\\.k8s\\.io(/[^/]*)?", A), !strings.Contains(".", A)])
+isK8sApi: [A=_]: regexp.Match(".*\\.k8s\\.io(/[^/]+)", A) || !strings.Contains(A, ".")
 
 apiResources: {
 	[GV=_]: [Kind=_]: {
