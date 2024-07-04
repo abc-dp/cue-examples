@@ -2,12 +2,20 @@ package cluster
 
 import (
 	core_v1 "k8s.io/api/core/v1"
+	acme_cert_manager_io_challenge_v1 "acme.cert-manager.io/challenge/v1"
+	acme_cert_manager_io_order_v1 "acme.cert-manager.io/order/v1"
 	admissionregistration_v1 "k8s.io/api/admissionregistration/v1"
+	apiextensions_v1 "k8s.io/api/apiextensions/v1"
+	apiregistration_v1 "k8s.io/api/apiregistration/v1"
 	apps_v1 "k8s.io/api/apps/v1"
 	authentication_v1 "k8s.io/api/authentication/v1"
 	authorization_v1 "k8s.io/api/authorization/v1"
 	autoscaling_v2 "k8s.io/api/autoscaling/v2"
 	batch_v1 "k8s.io/api/batch/v1"
+	cert_manager_io_certificaterequest_v1 "cert-manager.io/certificaterequest/v1"
+	cert_manager_io_certificate_v1 "cert-manager.io/certificate/v1"
+	cert_manager_io_clusterissuer_v1 "cert-manager.io/clusterissuer/v1"
+	cert_manager_io_issuer_v1 "cert-manager.io/issuer/v1"
 	certificates_v1 "k8s.io/api/certificates/v1"
 	coordination_v1 "k8s.io/api/coordination/v1"
 	discovery_v1 "k8s.io/api/discovery/v1"
@@ -43,6 +51,8 @@ import (
 		secrets?: [_]:                           core_v1.#Secret
 		serviceaccounts?: [_]:                   core_v1.#ServiceAccount
 		services?: [_]:                          core_v1.#Service
+		challenges?: [_]:                        acme_cert_manager_io_challenge_v1.#Challenge
+		orders?: [_]:                            acme_cert_manager_io_order_v1.#Order
 		mutatingwebhookconfigurations?: [_]:     admissionregistration_v1.#MutatingWebhookConfiguration
 		validatingadmissionpolicies?: [_]:       admissionregistration_v1.#ValidatingAdmissionPolicy
 		validatingadmissionpolicybindings?: [_]: admissionregistration_v1.#ValidatingAdmissionPolicyBinding
@@ -61,6 +71,10 @@ import (
 		horizontalpodautoscalers?: [_]:          autoscaling_v2.#HorizontalPodAutoscaler
 		cronjobs?: [_]:                          batch_v1.#CronJob
 		jobs?: [_]:                              batch_v1.#Job
+		certificaterequests?: [_]:               cert_manager_io_certificaterequest_v1.#CertificateRequest
+		certificates?: [_]:                      cert_manager_io_certificate_v1.#Certificate
+		clusterissuers?: [_]:                    cert_manager_io_clusterissuer_v1.#ClusterIssuer
+		issuers?: [_]:                           cert_manager_io_issuer_v1.#Issuer
 		certificatesigningrequests?: [_]:        certificates_v1.#CertificateSigningRequest
 		leases?: [_]:                            coordination_v1.#Lease
 		endpointslices?: [_]:                    discovery_v1.#EndpointSlice

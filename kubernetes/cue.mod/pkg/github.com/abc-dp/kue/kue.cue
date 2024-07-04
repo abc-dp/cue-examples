@@ -161,24 +161,35 @@ import (
 						for i, _ in FLDS {(headers[i]): FLDS[i]}
 					}
 				}]
+				isK8sApi: {
+					[A=_]: regexp.Match(".*\\.k8s\\.io(/[^/]+)", A) || !strings.Contains(A, ".")
+					for r in _locals.records {(r.APIVERSION): _}
+				}
 				gvk: {
-					[GV=_]: [K=_]: {
-						_local: {
-							version: regexp.ReplaceAll("(.*/)?", GV, "")
-							group:   *"k8s.io/api" | _
-							pkgVer:  *regexp.ReplaceAll("\\.[^/]*", GV, "") | _
-							if !strings.Contains(GV, "/") {
-								pkgVer: "core/v1"
-							}
-						}
-						package: strings.Join([_local.group, _local.pkgVer], "/")
-					}
-					for r in _locals.records if !strings.Contains(r.APIVERSION, ".") || strings.Contains(r.APIVERSION, ".k8s.io/") && !regexp.Match(r.NAME, "(customresourcedefinitions|apiservices)") {
+					for r in _locals.records {
 						(r.APIVERSION): (r.KIND): {
 							name:       r.NAME
 							namespaced: r.NAMESPACED
 							if r.SHORTNAMES != _|_ {
 								shortnames: strings.Split(r.SHORTNAMES, ",")
+							}
+
+							_local: version: regexp.ReplaceAll("(.*/)?", r.APIVERSION, "")
+							if isK8sApi[r.APIVERSION] {
+								_local: {
+									if !strings.Contains(r.APIVERSION, "/") {
+										pv: "core/v1"
+									}
+									pv: *regexp.ReplaceAll("\\.[^/]*", r.APIVERSION, "") | _
+								}
+								package: strings.Join(["k8s.io", "api", _local.pv], "/")
+							}
+							if !isK8sApi[r.APIVERSION] {
+								_local: {
+									group:   strings.Split(r.APIVERSION, "/")[0]
+									package: strings.ToLower(r.KIND)
+								}
+								package: strings.Join([_local.group, _local.package, _local.version], "/")
 							}
 						}
 					}

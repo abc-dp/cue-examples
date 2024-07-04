@@ -33,13 +33,6 @@ isK8sApi: [A=_]: regexp.Match(".*\\.k8s\\.io(/[^/]+)", A) || !strings.Contains(A
 apiResources: {
 	[GV=_]: [Kind=_]: {
 		_local: version: regexp.ReplaceAll("(.*/)?", GV, "")
-		if !isK8sApi[GV] {
-			_local: {
-				group:   strings.Split(GV, "/")[0]
-				package: strings.ToLower(Kind)
-			}
-			package: strings.Join([_local.group, _local.package, _local.version], "/")
-		}
 		if isK8sApi[GV] {
 			_local: {
 				if !strings.Contains(GV, "/") {
@@ -48,6 +41,13 @@ apiResources: {
 				pv: *regexp.ReplaceAll("\\.[^/]*", GV, "") | _
 			}
 			package: strings.Join(["k8s.io", "api", _local.pv], "/")
+		}
+		if !isK8sApi[GV] {
+			_local: {
+				group:   strings.Split(GV, "/")[0]
+				package: strings.ToLower(Kind)
+			}
+			package: strings.Join([_local.group, _local.package, _local.version], "/")
 		}
 	}
 	"acme.cert-manager.io/v1": {
