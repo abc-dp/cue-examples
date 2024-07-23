@@ -1,6 +1,6 @@
 package sops
 
-import "github.com/abc-dp/sue"
+import "github.com/abcue/sue"
 
 command: sue.#Command & {
 	#var: path: ["config"]
